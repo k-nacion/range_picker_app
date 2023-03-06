@@ -61,7 +61,7 @@ class _RangePickerPageState extends State<RangePickerPage> {
                 if (maxLimit <= minLimit) {
                   showDialog(
                     context: context,
-                    builder: (context) => const AlertDialog(
+                    builder: (BuildContext context) => const AlertDialog(
                       title: Text('Alert'),
                       content: Text(
                           'Please make sure that Maximum range is greater than the minimum and vice versa.'),
@@ -73,7 +73,7 @@ class _RangePickerPageState extends State<RangePickerPage> {
 
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => RangeGeneratePage(
+                    builder: (BuildContext context) => RangeGeneratePage(
                       minLimit: minLimit,
                       maxLimit: maxLimit,
                     ),

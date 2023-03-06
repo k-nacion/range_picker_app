@@ -23,5 +23,12 @@ View the generated random number on the next page
 Built With
 Flutter - The mobile application framework used
 
+
+## Screenshots
+
+![App Screenshot](https://github.com/k-nacion/range_picker_app/blob/master/screenshots/Screenshot_20230306_104018.png?raw=true)
+![App Screenshot](https://github.com/k-nacion/range_picker_app/blob/master/screenshots/Screenshot_20230306_104048.png?raw=true)
+
+
 ## Acknowledgments
 This application was created by following the Reso Coder Flutter Bootcamp.
