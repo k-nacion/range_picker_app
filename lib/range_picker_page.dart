@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:range_picker_app/range_generate_page.dart';
 import 'package:range_picker_app/range_picker_page_form.dart';
 
 class RangePickerPage extends StatefulWidget {
@@ -31,6 +32,9 @@ class _RangePickerPageState extends State<RangePickerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeContext = Theme.of(context);
+    final fabForegroundColor = themeContext.floatingActionButtonTheme.foregroundColor;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Range Picker'),
@@ -49,10 +53,37 @@ class _RangePickerPageState extends State<RangePickerPage> {
         backgroundColor: _isFabEnabled
             ? Theme.of(context).floatingActionButtonTheme.backgroundColor
             : const Color(0xFFE0E0E0),
-        onPressed: _isFabEnabled ? () {} : null,
+        onPressed: _isFabEnabled
+            ? () {
+                final minLimit = int.parse(minRangeController.value.text);
+                final maxLimit = int.parse(maxRangeController.value.text);
+
+                if (maxLimit <= minLimit) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const AlertDialog(
+                      title: Text('Alert'),
+                      content: Text(
+                          'Please make sure that Maximum range is greater than the minimum and vice versa.'),
+                    ),
+                  );
+
+                  return;
+                }
+
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => RangeGeneratePage(
+                      minLimit: minLimit,
+                      maxLimit: maxLimit,
+                    ),
+                  ),
+                );
+              }
+            : null,
         child: Icon(
           Icons.navigate_next,
-          color: _isFabEnabled ? Colors.black : Colors.black26,
+          color: _isFabEnabled ? fabForegroundColor : fabForegroundColor?.withOpacity(.45),
         ),
       ),
     );

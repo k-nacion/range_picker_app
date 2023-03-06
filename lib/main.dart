@@ -17,8 +17,8 @@ class AppWidget extends StatelessWidget {
       title: 'Range Picker',
       debugShowCheckedModeBanner: false,
       theme: FlexThemeData.light(
-        swapColors: true,
-        subThemesData: const FlexSubThemesData(),
+        // swapColors: true,
+        subThemesData: const FlexSubThemesData(inputDecoratorRadius: 12),
         // scheme: FlexScheme.indigo,
         colors: $myFlexScheme.light,
         fontFamily: GoogleFonts.raleway().fontFamily,
