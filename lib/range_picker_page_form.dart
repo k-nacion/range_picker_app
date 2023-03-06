@@ -1,51 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:range_picker_app/bloc/fab_toggle_cubit.dart';
+import 'package:range_picker_app/bloc/range_input_cubit.dart';
 import 'package:string_validator/string_validator.dart';
 
 class RangePickerForm extends StatelessWidget {
-  RangePickerForm({
-    required GlobalKey<FormState> formKey,
-    required this.minRangeController,
-    required this.maxRangeController,
-    required this.fabToggleCallback,
-    super.key,
-  }) : _formKey = formKey;
-
-  final GlobalKey<FormState> _formKey;
-  final TextEditingController minRangeController;
-  final TextEditingController maxRangeController;
-  void Function(bool) fabToggleCallback;
+  const RangePickerForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final rangeInputCubit = context.read<RangeInputCubit>();
+    final fabToggleCubit = context.read<FabToggleCubit>();
+
+    final minRangeController = rangeInputCubit.state.minRangeController;
+    final maxRangeController = rangeInputCubit.state.maxRangeController;
+
+    final themeContext = Theme.of(context);
+    final minTextLabelStyle = themeContext.textTheme.bodyLarge;
+
+    final formKey = GlobalKey<FormState>();
+
     return Form(
-      key: _formKey,
-      onChanged: () => fabToggleCallback(_formKey.currentState!.validate()),
+      key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Minimum range', style: Theme.of(context).textTheme.bodyLarge),
+          Text('Minimum range', style: minTextLabelStyle),
           const SizedBox(height: 8),
-          _buildTextFormField(controller: minRangeController),
+          _buildTextFormField(
+            formKey: formKey,
+            controller: minRangeController,
+            fabToggleCubit: fabToggleCubit,
+          ),
           const SizedBox(height: 8),
-          Text('Maximum range', style: Theme.of(context).textTheme.bodyLarge),
+          Text('Maximum range', style: minTextLabelStyle),
           const SizedBox(height: 8),
-          _buildTextFormField(controller: maxRangeController),
+          _buildTextFormField(
+            formKey: formKey,
+            controller: maxRangeController,
+            fabToggleCubit: fabToggleCubit,
+          ),
         ],
       ),
     );
   }
 
-  TextFormField _buildTextFormField({required TextEditingController controller}) {
+  TextFormField _buildTextFormField({
+    required GlobalKey<FormState> formKey,
+    required FabToggleCubit fabToggleCubit,
+    required TextEditingController controller,
+  }) {
     return TextFormField(
-      keyboardType: const TextInputType.numberWithOptions(signed: true),
-      validator: _validator,
       controller: controller,
+      keyboardType: const TextInputType.numberWithOptions(signed: true),
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) => _onValidate(
+        fabToggleCubit: fabToggleCubit,
+        value: value,
+      ),
+      onChanged: (value) => _onChange(
+        key: formKey,
+        fabToggle: fabToggleCubit,
+        value: value,
+      ),
     );
   }
 
-  String? _validator(String? value) {
+  String? _onValidate({
+    required FabToggleCubit fabToggleCubit,
+    required String? value,
+  }) {
     if (value != null) {
       if (value.isEmpty) {
         return 'Field is required.';
@@ -53,7 +78,24 @@ class RangePickerForm extends StatelessWidget {
       if (!isNumeric(value)) {
         return 'Must be whole number only.';
       }
+    } else if (value == null) {
+      return 'Field is required.';
+    } else {
+      fabToggleCubit.enableFab();
+      return null;
     }
-    return null;
+  }
+
+  void _onChange({
+    required GlobalKey<FormState> key,
+    required FabToggleCubit fabToggle,
+    required String value,
+  }) {
+    if (value.isEmpty) {
+      fabToggle.disableFab();
+    } else {
+      key.currentState!.validate();
+      fabToggle.enableFab();
+    }
   }
 }
