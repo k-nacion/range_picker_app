@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:range_picker_app/bloc/fab_toggle_cubit.dart';
 import 'package:range_picker_app/bloc/range_input_cubit.dart';
-import 'package:range_picker_app/range_generate_page.dart';
-import 'package:range_picker_app/range_picker_page_form.dart';
+import 'package:range_picker_app/page/range_generate_page.dart';
+import 'package:range_picker_app/page/range_picker_page_form.dart';
 
 class RangePickerPage extends StatelessWidget {
   const RangePickerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final themeContext = Theme.of(context);
 
     final fab = themeContext.floatingActionButtonTheme;

@@ -80,10 +80,9 @@ class RangePickerForm extends StatelessWidget {
       }
     } else if (value == null) {
       return 'Field is required.';
-    } else {
-      fabToggleCubit.enableFab();
-      return null;
     }
+
+    return null;
   }
 
   void _onChange({
@@ -94,8 +93,9 @@ class RangePickerForm extends StatelessWidget {
     if (value.isEmpty) {
       fabToggle.disableFab();
     } else {
-      key.currentState!.validate();
-      fabToggle.enableFab();
+      if (key.currentState!.validate()) {
+        fabToggle.enableFab();
+      }
     }
   }
 }

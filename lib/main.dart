@@ -2,7 +2,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:range_picker_app/range_picker_page.dart';
+import 'package:range_picker_app/page/range_picker_page.dart';
 import 'package:range_picker_app/theme.dart';
 
 import 'bloc/fab_toggle_cubit.dart';
