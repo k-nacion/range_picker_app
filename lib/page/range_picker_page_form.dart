@@ -95,6 +95,8 @@ class RangePickerForm extends StatelessWidget {
     } else {
       if (key.currentState!.validate()) {
         fabToggle.enableFab();
+      } else {
+        fabToggle.disableFab();
       }
     }
   }

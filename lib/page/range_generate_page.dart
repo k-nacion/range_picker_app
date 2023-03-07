@@ -48,7 +48,7 @@ class _RangeGeneratePageState extends State<RangeGeneratePage> {
                     _isVisible = true;
 
                     randomNumber =
-                        Random().nextInt(widget.maxLimit - widget.minLimit) + widget.minLimit;
+                        Random().nextInt((widget.maxLimit - widget.minLimit) + 1) + widget.minLimit;
                   });
                 },
                 child: const Text('Generate random Number'),
